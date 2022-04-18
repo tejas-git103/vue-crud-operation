@@ -1,4 +1,5 @@
 <template>
+<delete-popup @confirmation="handleConfirmation" ref="popup"/>
 <div class="users-list">
     <hr class="hr">
     <div class="list-title">
@@ -11,13 +12,13 @@
     </div>
     <hr class="hr">
     <div v-if="list.length" class="list-container">
-        <div v-for="item in list" :key="item.email" class="list-item" @click="handlelistclick(item.email)">
+        <div v-for="item in list" :key="item.email" class="list-item">
             <span>{{item.name}}</span>
             <span>{{item.surname}}</span>
             <span>{{item.email}}</span>
             <span>{{item.phone}}</span>
             <span>{{item.activate}}</span>
-            <span>{{item.action}}</span>
+            <span><i class="fa fa-trash-o del-icon" @click="handleDelete(item.email)"></i></span>
         </div>
     </div>
     <div v-else class="empty-list">
@@ -28,13 +29,27 @@
 </template>
 
 <script>
+import DeletePopup from './DeletePopup.vue';
 export default {
+  components: { DeletePopup },
     props:{
         list:[]
     },
+    data(){
+        return{
+            data:null
+        }
+    },
     methods:{
-        handlelistclick(ev){
-            console.log(ev);
+        handleDelete(data){
+            const popup = this.$refs.popup;
+            popup.toggleDisplay('block');
+            this.data = data;
+        },
+        handleConfirmation(ans){
+            if(ans=='yes') {
+                this.$emit('emitdel',this.data);
+            }
         }
     }
 }
@@ -80,5 +95,9 @@ export default {
 .hr{
     color: #EBECF0;
     width: 100%;
+}
+.del-icon{
+    font-size:24px;
+    color:red;
 }
 </style>

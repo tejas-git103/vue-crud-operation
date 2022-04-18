@@ -16,7 +16,7 @@
                 <span>Users</span>
                 <button class="create-user-btn" @click="displayPopup">Create User</button>
             </div>
-            <users-list :list="list"/>
+            <users-list :list="list" @emitdel = "handleDelete"/>
         </div>
     </div>
 </div>
@@ -40,7 +40,6 @@ export default {
                 email:'tejas@abc',
                 phone:123456789,
                 activate:true,
-                action:'none'
             }]
         }
     },
@@ -51,6 +50,10 @@ export default {
         },
         handleAdd(data){
             this.list.push(data);
+        },
+        handleDelete(data){
+            let index = this.list.findIndex(user => user.email == data);
+            this.list.splice(index,1);
         }
     },
     mounted(){

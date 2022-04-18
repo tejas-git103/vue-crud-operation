@@ -18,10 +18,6 @@
             Phone : <input class="input" type="tel" v-model="phone" placeholder="">
             <div v-if="phoneErr" class="error">Please Enter Valid number</div>
         </div>
-        <div class="input-element">
-            Action : <input class="input" type="text" v-model="action">
-            <div v-if="actionErr" class="error">Please Enter Valid Action</div>
-        </div>
         <div class="btn-container">
             <button  class="btn" @click="handleAdd">Add</button>
             <button class="btn" @click="handleCancel">Cancel</button>
@@ -38,12 +34,10 @@ export default {
             surname: "",
             email: "",
             phone:null,
-            action: "",
             nameErr:false,
             surnameErr:false,
             phoneErr:false,
             emailErr:false,
-            actionErr:false
         }
     },
     methods:{
@@ -74,18 +68,13 @@ export default {
                 this.phoneErr = false;
             }
 
-            if (this.action == "" || !/[a-zA-z]/.test(this.action)){
-                this.actionErr = true;
-            } else {
-                this.actionErr = false;
-            }
             const reg = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (reg.test(this.email)) {
                 this.emailErr = false;
             } else {
                 this.emailErr = true;
             }
-            if (!this.emailErr && !this.nameErr && !this.surnameErr && !this.phoneErr && !this.actionErr) {
+            if (!this.emailErr && !this.nameErr && !this.surnameErr && !this.phoneErr) {
                 this.toggleDisplay('none');
                 this.$emit('emitadd',{
                     name:this.name,
@@ -93,7 +82,6 @@ export default {
                     email:this.email,
                     phone:this.phone,
                     activate:true,
-                    action:this.action
                 });
             }
             
