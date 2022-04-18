@@ -1,4 +1,5 @@
 <template>
+<CreateUser ref="createUserRef" @emitadd="handleAdd" />
 <div class="dashboard">
     <div class="side-bar">
         <div class="side-bar-list">
@@ -13,15 +14,51 @@
         <div class="users-container">
             <div class="users-title">
                 <span>Users</span>
-                <button class="create-user-btn">Create User</button>
+                <button class="create-user-btn" @click="displayPopup">Create User</button>
             </div>
+            <users-list :list="list"/>
         </div>
     </div>
 </div>
 </template>
 
 <script>
+import UsersList from './UsersList.vue';
+import CreateUser from './CreateUser.vue';
+
 export default {
+    components:{
+        UsersList,
+        CreateUser
+    },
+    data(){
+        return{
+            list:[
+            {
+                name:'tejas',
+                surname:'apte',
+                email:'tejas@abc',
+                phone:123456789,
+                activate:true,
+                action:'none'
+            }]
+        }
+    },
+    methods:{
+        displayPopup(){
+            const createUserRef = this.$refs.createUserRef;
+            createUserRef.toggleDisplay('block');
+        },
+        handleAdd(data){
+            this.list.push(data);
+        }
+    },
+    mounted(){
+        console.log("mounted")
+    },
+    updated(){
+        console.log('updated');
+    }
 
 }
 </script>
@@ -74,7 +111,7 @@ export default {
     color: white;
     background-color: steelblue;
     font-size: 14px;
-    padding: 5px 10px 10px 10px;
+    padding: 10px 15px 10px 15px;
     border: none;
     border-radius: 5px;
 }
