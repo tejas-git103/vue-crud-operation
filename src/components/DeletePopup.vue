@@ -30,9 +30,9 @@ export default {
 <style>
 .delete-popup{
     position: absolute;
-    width: 50%;
+    width: 40%;
     /* height: 400px; */
-    left: 25%;
+    left: 30%;
     top:10%;
     background-color: white;
     border:2px solid black;

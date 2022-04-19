@@ -16,7 +16,8 @@
                 <span>Users</span>
                 <button class="create-user-btn" @click="displayPopup">Create User</button>
             </div>
-            <users-list :list="list" @emitdel = "handleDelete"/>
+            <users-list v-if="!showEdit" :list="list" @emitdel = "handleDelete" @toggleshowedit="handleShowEdit"/>
+            <edit-user v-else @toggleshowedit="handleShowEdit" @emitedit="handleNewData"></edit-user>
         </div>
     </div>
 </div>
@@ -25,15 +26,20 @@
 <script>
 import UsersList from './UsersList.vue';
 import CreateUser from './CreateUser.vue';
+import EditUser from './EditUser.vue';
 import axios from 'axios';
 export default {
     components:{
         UsersList,
-        CreateUser
+        CreateUser,
+        EditUser
     },
     data(){
         return{
-            list:[]
+            list:[],
+            showEdit:false,
+            idtoEdit:null
+
         }
     },
     methods:{
@@ -80,6 +86,28 @@ export default {
                 console.log(error);
             }
         },
+        handleShowEdit(id){
+            this.showEdit = !this.showEdit;
+            if(id != -1) {
+                this.idtoEdit = id;
+            }
+        },
+        async handleNewData(data){
+            try{
+                await axios.patch(`${`http://localhost:3000/users`}/${this.idtoEdit}`,data);
+            }catch(err){
+                console.log(err);
+            }
+
+            try {
+                const res = await axios.get(`http://localhost:3000/users`);
+                this.list = res.data;
+            } catch (error) {
+                console.log(error);
+            }
+
+            this.showEdit = !this.showEdit;
+        }
     },
     async created(){
         try {
@@ -89,6 +117,7 @@ export default {
             console.log(error);
         }
     },
+    
 }
 </script>
 

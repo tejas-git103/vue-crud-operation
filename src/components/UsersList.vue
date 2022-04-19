@@ -18,7 +18,10 @@
             <span>{{item.email}}</span>
             <span>{{item.phone}}</span>
             <span>{{item.activate}}</span>
-            <span><i class="fa fa-trash-o del-icon" @click="handleDelete(item.email)"></i></span>
+            <div>
+                <span><i class="fa fa-trash-o del-icon" @click="handleDelete(item.email)"></i></span>
+                <span><i class="fa fa-edit edit-icon" @click="handleEdit(item.id)"></i></span>
+            </div>
         </div>
     </div>
     <div v-else class="empty-list">
@@ -50,6 +53,9 @@ export default {
             if(ans=='yes') {
                 this.$emit('emitdel',this.data);
             }
+        },
+        handleEdit(id){
+            this.$emit('toggleshowedit',id);
         }
     }
 }
@@ -99,5 +105,10 @@ export default {
 .del-icon{
     font-size:24px;
     color:red;
+}
+.edit-icon{
+    font-size:23px;
+    margin-left: 10px ;
+    color:steelblue;
 }
 </style>
