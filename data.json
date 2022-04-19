@@ -1,0 +1,20 @@
+{
+  "users": [
+    {
+      "name": "wqe",
+      "surname": "qwe",
+      "email": "qew@wqw.com",
+      "phone": "1231231231",
+      "activate": true,
+      "id": 1
+    },
+    {
+      "name": "Tejas",
+      "surname": "Apte",
+      "email": "tejas@abc.com",
+      "phone": "1231231231",
+      "activate": true,
+      "id": 2
+    }
+  ]
+}

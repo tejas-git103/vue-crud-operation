@@ -25,7 +25,7 @@
 <script>
 import UsersList from './UsersList.vue';
 import CreateUser from './CreateUser.vue';
-
+import axios from 'axios';
 export default {
     components:{
         UsersList,
@@ -33,14 +33,7 @@ export default {
     },
     data(){
         return{
-            list:[
-            {
-                name:'tejas',
-                surname:'apte',
-                email:'tejas@abc',
-                phone:123456789,
-                activate:true,
-            }]
+            list:[]
         }
     },
     methods:{
@@ -48,21 +41,38 @@ export default {
             const createUserRef = this.$refs.createUserRef;
             createUserRef.toggleDisplay('block');
         },
-        handleAdd(data){
-            this.list.push(data);
+        async handleAdd(data){
+            console.log("in add");
+            // const obj = JSON.stringify(data);
+            // try{
+
+            // } catch(){
+
+            // }
+            const res = await axios.post(`http://localhost:3000/users`, {
+                name:data.name,
+                surname:data.surname,
+                email:data.email,
+                phone:data.phone,
+                activate:data.activate
+            },{headers:{"Content-Type" : "application/json"}});
+            console.log(res);
+            this.list = [...this.list,res.data];
         },
         handleDelete(data){
             let index = this.list.findIndex(user => user.email == data);
+            axios.delete(`http://localhost:3000/users/${index}`);
             this.list.splice(index,1);
+        },
+    },
+    async created(){
+        try {
+            const res = await axios.get(`http://localhost:3000/users`);
+            this.list = res.data;
+        } catch (error) {
+            console.log(error);
         }
     },
-    mounted(){
-        console.log("mounted")
-    },
-    updated(){
-        console.log('updated');
-    }
-
 }
 </script>
 

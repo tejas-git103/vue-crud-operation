@@ -47,7 +47,6 @@ export default {
         toggleDisplay(display){
             const container = this.$refs.container;
             container.style.display = display;
-            console.log('in toggle')
         },
         handleAdd(){
             if (this.name == "" || !/[a-zA-z]/.test(this.name)){
