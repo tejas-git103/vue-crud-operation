@@ -59,10 +59,26 @@ export default {
             console.log(res);
             this.list = [...this.list,res.data];
         },
-        handleDelete(data){
-            let index = this.list.findIndex(user => user.email == data);
-            axios.delete(`http://localhost:3000/users/${index+1}`);
-            this.list.splice(index,1);
+        async handleDelete(data){
+            // let index = this.list.findIndex(user => user.email == data);
+            const res  = await axios.get(`http://localhost:3000/users`);
+            let templist = res.data;
+            console.log("temp:",templist);
+            let user;
+            user = templist.find(user =>{
+                if(user.email==data){
+                    return user.id;
+                }
+            })
+            console.log("id",user.id);
+            await axios.delete(`http://localhost:3000/users/${user.id}`);
+            // this.list.splice(index,1);
+            try {
+                const res = await axios.get(`http://localhost:3000/users`);
+                this.list = res.data;
+            } catch (error) {
+                console.log(error);
+            }
         },
     },
     async created(){
