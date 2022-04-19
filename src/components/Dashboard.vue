@@ -61,7 +61,7 @@ export default {
         },
         handleDelete(data){
             let index = this.list.findIndex(user => user.email == data);
-            axios.delete(`http://localhost:3000/users/${index}`);
+            axios.delete(`http://localhost:3000/users/${index+1}`);
             this.list.splice(index,1);
         },
     },
